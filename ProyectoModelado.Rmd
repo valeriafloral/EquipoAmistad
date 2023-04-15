@@ -1,0 +1,11 @@
+---
+title: "Proyecto"
+output: pdf_document
+date: "2023-04-14"
+---
+
+Estos datos se obtuvieron a partir del estudio de Ueno *et al.* 2015, en el cual los autores infirieron el rendimiento de *Lolium multiflorum* a partir de la cantidad de biomasa (g por planta), bajo los efectos de la exposición a Ozono troposférico (presencia/ausencia), la interacción del hongo endófito *Epiclöe ocultans* (presencia/ausencia) y la exposición a hervívoros (presencia/ausencia de áfidos).
+
+A partir de estos datos, queremos modelar la cantidad de biomasa en respuesta a los distintos tratamientos.
+
+El diseño 
