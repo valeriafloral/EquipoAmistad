@@ -9,3 +9,10 @@ Estos datos se obtuvieron a partir del estudio de Ueno *et al.* 2015, en el cual
 A partir de estos datos, queremos modelar la cantidad de biomasa en respuesta a los distintos tratamientos.
 
 El diseño 
+
+
+**pendiente**
+
+### Variables
+
+* **Variable de respuesta:** Biomasa total (g/planta)
