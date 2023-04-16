@@ -32,17 +32,17 @@ knitr::kable(variables)
 
 ```{r include=FALSE}
 library(tidyverse)
-db <- read.delim("L_multiflorum.csv", sep = ",")
-db <- subset(db, select= -Tiller)
-str(db)
-db[,3:5] <- lapply(db[,3:5], factor)
-str(db)
+db1 <- read.delim("L_multiflorum.csv", sep = ",")
+db1 <- subset(db1, select= -Tiller)
+str(db1)
+db1[,3:5] <- lapply(db1[,3:5], factor)
+str(db1)
 
 ```
 
 # Datos
 ```{r include=FALSE}
-db <- db %>% 
+db <- db1 %>% 
   mutate(Ozono = if_else(Ozone == 1, "Ozono", "Sin Ozono"),
          Endófitos= if_else(Endophyte == 1, "Edófitos", "Sin Endófitos"),
          Herbivoría= if_else(Aphid == 1, "Áfidos", "Sin Áfidos"))
@@ -53,6 +53,7 @@ individuos <- db %>%
 ```
 
 ```{r echo=FALSE}
+head(db1)
 knitr::kable(individuos)
 ```
 
