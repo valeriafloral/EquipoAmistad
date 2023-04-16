@@ -41,7 +41,7 @@ str(db)
 ```
 
 # Datos
-```{r echo=FALSE, warning=FALSE}
+```{r include=FALSE}
 db <- db %>% 
   mutate(Ozono = if_else(Ozone == 1, "Ozono", "Sin Ozono"),
          Endófitos= if_else(Endophyte == 1, "Edófitos", "Sin Endófitos"),
@@ -50,7 +50,9 @@ db <- db %>%
 individuos <- db %>% 
   group_by(Ozono, Endófitos, Herbivoría) %>% 
   summarise(Indviduos= n(), Media=mean(`Biomass`), SD= sd(`Biomass`))
+```
 
+```{r echo=FALSE}
 knitr::kable(individuos)
 ```
 
@@ -66,6 +68,7 @@ p<-ggplot(db, aes(x=Endófitos, y=Biomass, color=Herbivoría)) +
   geom_boxplot()+
   facet_grid(.~Ozono, scales = "free_x")+
   ylab("Biomasa (g/planta)")+
+  xlab("Tratamientos")+
   theme_minimal()+
   theme(strip.text.x = element_text(size = 20))
 p
