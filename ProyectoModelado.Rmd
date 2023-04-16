@@ -1,14 +1,13 @@
 ---
-title: "Proyecto"
+title: "Proyecto Modelación Estadística en Ecología"
 output: pdf_document
-date: "2023-04-14"
 ---
 
-Estos datos se obtuvieron a partir del estudio de Ueno *et al.* 2015, en el cual los autores infirieron el rendimiento de *Lolium multiflorum* a partir de la cantidad de biomasa (g por planta), bajo los efectos de la exposición a Ozono troposférico (presencia/ausencia), la interacción del hongo endófito *Epiclöe ocultans* (presencia/ausencia) y la exposición a hervívoros (presencia/ausencia de áfidos).
+Estos datos se obtuvieron a partir del estudio de Ueno *et al.* 2015 [DOI:10.1111/1365-2435.12519](https://doi.org/10.1111/1365-2435.12519), en el cual los autores infirieron el rendimiento de *Lolium multiflorum* a partir de la cantidad de biomasa (g por planta), bajo los efectos de la exposición a Ozono troposférico (presencia/ausencia), la interacción del hongo endófito *Epiclöe ocultans* (presencia/ausencia) y la exposición a herbívoros (presencia/ausencia de áfidos).
 
 A partir de estos datos, queremos modelar la cantidad de biomasa en respuesta a los distintos tratamientos.
 
-El diseño 
+# Diseño experimental
 
 
 **pendiente**
@@ -31,38 +30,45 @@ knitr::kable(variables)
 
 # Datos
 
-```{r}
+```{r include=FALSE}
 library(tidyverse)
 db <- read.delim("L_multiflorum.csv", sep = ",")
+db <- subset(db, select= -Tiller)
 str(db)
 db[,3:5] <- lapply(db[,3:5], factor)
 str(db)
 
-summary(db)
+```
 
-d <- density(db$Biomass)
-plot(d) # plots the results
+# Datos
+```{r echo=FALSE, warning=FALSE}
+db <- db %>% 
+  mutate(Ozono = if_else(Ozone == 1, "Ozono", "Sin Ozono"),
+         Endófitos= if_else(Endophyte == 1, "Edófitos", "Sin Endófitos"),
+         Herbivoría= if_else(Aphid == 1, "Áfidos", "Sin Áfidos"))
 
+individuos <- db %>% 
+  group_by(Ozono, Endófitos, Herbivoría) %>% 
+  summarise(Indviduos= n(), Media=mean(`Biomass`), SD= sd(`Biomass`))
 
+knitr::kable(individuos)
+```
+
+# Distribución de la variable de respuesta
+```{r echo=FALSE}
 g <- ggplot(db) + geom_density(aes(Biomass))+ theme_classic()
 g
+```
 
-db$cathegory <- paste(db$Ozone,db$Endophyte, db$Aphid)
-db
-
-
-db <- db %>% 
-  mutate(A = if_else(Ozone == 1, "Oz", "NoOz"),
-         B= if_else(Endophyte == 1, "E", "NoE"),
-         C= if_else(Aphid == 1, "A", "NoA"))
-db$cathegory <- paste(db$B, db$C)
-
-
-p<-ggplot(db, aes(x=A, y=Biomass, color=cathegory)) +
+# Distribución de los datos por variables
+```{r echo=FALSE}
+p<-ggplot(db, aes(x=Endófitos, y=Biomass, color=Herbivoría)) +
   geom_boxplot()+
-  facet_grid(.~Ozone, scales = "free_x")
+  facet_grid(.~Ozono, scales = "free_x")+
+  ylab("Biomasa (g/planta)")+
+  theme_minimal()+
+  theme(strip.text.x = element_text(size = 20))
 p
-
 ```
 
 
@@ -73,9 +79,9 @@ El desempeño de las plantas puede ser inferido a partir de su biomasa. Esta car
 
 * El desempeño de la planta se ve disminuído por la presencia de condiciones ambientales adversas.
 * El desempeño de la planta se ve disminuído por la ausencia sus asociados mutualistas.
-* El desempeño de la planta se ve disminuído por la presencia de hervíboros.
+* El desempeño de la planta se ve disminuído por la presencia de herbívoros.
 * En condiciones adversas los hongos endófitos cambian su estatus mutualista a parásito, afectando el desempeño de la planta asociada. 
 * Los hongos endófitos ayudan a su planta hospedera a sobrellevar condiciones ambientales adversas, por lo que el desempeño será mayor en presencia de endófitos. 
-* El desempeño de la planta se verá afectado en condiciones ambientales adversas y en presencia de hervíboros.
-* Los hongos endófitos ayudan a su planta hospedara a sobrellevar el estrés por herviboría.
-* En condiciones ambientales adversas los hongos endófitos cambian su estatus mutualista, por lo que incrementan el efecto del daño por herviboría. 
+* El desempeño de la planta se verá afectado en condiciones ambientales adversas y en presencia de herbívoros.
+* Los hongos endófitos ayudan a su planta hospedara a sobrellevar el estrés por herbivoría.
+* En condiciones ambientales adversas los hongos endófitos cambian su estatus mutualista, por lo que incrementan el efecto del daño por herbivoría. 
