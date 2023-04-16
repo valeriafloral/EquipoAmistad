@@ -19,10 +19,10 @@ A partir de estos datos, queremos modelar la cantidad de biomasa en respuesta a 
 #Tabla
 
 variables <- data.frame(
-  "Variable" = c("Respuesta", "Efecto", "Efecto", "Efecto"), 
-  "Nombre" = c("Biomasa", "Ozono", "Endófitos", "Áfidos"), 
-  "Unidades" = c("(g/planta)", "(presencia/ausencia)", "(presencia/ausencia)", "(presencia/ausencia)"),
-  "Tipo" = c("Continua", "Binaria", "Binaria", "Binaria"))
+  "Variable" = c("Respuesta", "Efecto", "Efecto", "Efecto", "Efecto"), 
+  "Nombre" = c("Biomasa", "Año", "Ozono", "Endófitos", "Áfidos"), 
+  "Unidades" = c("(g/planta)", "NA", "(presencia/ausencia)", "(presencia/ausencia)", "(presencia/ausencia)"),
+  "Tipo" = c("Continua", "Categórica", "Categórica Binaria", "Categórica Binaria", "Categórica Binaria"))
 
 knitr::kable(variables)
 ```
