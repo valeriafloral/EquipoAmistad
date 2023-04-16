@@ -15,4 +15,67 @@ El diseño
 
 ### Variables
 
-* **Variable de respuesta:** Biomasa total (g/planta)
+
+```{r echo=FALSE}
+#Tabla
+
+variables <- data.frame(
+  "Variable" = c("Respuesta", "Efecto", "Efecto", "Efecto"), 
+  "Nombre" = c("Biomasa", "Ozono", "Endófitos", "Áfidos"), 
+  "Unidades" = c("(g/planta)", "(presencia/ausencia)", "(presencia/ausencia)", "(presencia/ausencia)"),
+  "Tipo" = c("Continua", "Binaria", "Binaria", "Binaria"))
+
+knitr::kable(variables)
+```
+
+
+# Datos
+
+```{r}
+library(tidyverse)
+db <- read.delim("L_multiflorum.csv", sep = ",")
+str(db)
+db[,3:5] <- lapply(db[,3:5], factor)
+str(db)
+
+summary(db)
+
+d <- density(db$Biomass)
+plot(d) # plots the results
+
+
+g <- ggplot(db) + geom_density(aes(Biomass))+ theme_classic()
+g
+
+db$cathegory <- paste(db$Ozone,db$Endophyte, db$Aphid)
+db
+
+
+db <- db %>% 
+  mutate(A = if_else(Ozone == 1, "Oz", "NoOz"),
+         B= if_else(Endophyte == 1, "E", "NoE"),
+         C= if_else(Aphid == 1, "A", "NoA"))
+db$cathegory <- paste(db$B, db$C)
+
+
+p<-ggplot(db, aes(x=A, y=Biomass, color=cathegory)) +
+  geom_boxplot()+
+  facet_grid(.~Ozone, scales = "free_x")
+p
+
+```
+
+
+# Hipótesis
+
+El desempeño de las plantas puede ser inferido a partir de su biomasa. Esta característica puede verse afectada por factores abióticos, como la exposición a distintos estrese ambientales; y bióticos como la interacción con organismos mutualistas o antagonistas. Se ha reportado que la caracteristica mutualista de los hongos endófitos se ve afectada por el contexto ambiental pudiendo llegar a tener un comportamiento antagonista en codiciones ambientales adversas. Teniendo esto en cuenta, se plantean las siguientes hipótesis:
+
+
+* El desempeño de la planta se ve disminuído por la presencia de condiciones ambientales adversas.
+* El desempeño de la planta se ve disminuído por la ausencia sus asociados mutualistas.
+* El desempeño de la planta se ve disminuído por la presencia de hervíboros.
+* En condiciones adversas los hongos endófitos cambian su estatus mutualista a parásito, afectando el desempeño de la planta asociada. 
+* Los hongos endófitos ayudan a su planta hospedera a sobrellevar condiciones ambientales adversas, por lo que el desempeño será mayor en presencia de endófitos. 
+* El desempeño de la planta se verá afectado en condiciones ambientales adversas y en presencia de hervíboros.
+* Los hongos endófitos ayudan a su planta hospedara a sobrellevar el estrés por herviboría.
+* En condiciones ambientales adversas los hongos endófitos cambian su estatus mutualista, por lo que incrementan el efecto del daño por herviboría. 
