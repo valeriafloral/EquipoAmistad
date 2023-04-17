@@ -89,3 +89,50 @@ El desempeño de las plantas puede ser inferido a partir de su biomasa. Esta car
 * El desempeño de la planta se verá afectado en condiciones ambientales adversas y en presencia de herbívoros.
 * Los hongos endófitos ayudan a su planta hospedara a sobrellevar el estrés por herbivoría.
 * En condiciones ambientales adversas los hongos endófitos cambian su estatus mutualista, por lo que incrementan el efecto del daño por herbivoría. 
+
+Con estas hipóstesis biológicas se puede plantear los siguientes modelos estadísticos
+$$
+\tag{Eq. 1}
+y_B= \beta_{0} + \beta_{1}x_{o} + \beta_{2} x_{e} + \beta_{3}x_{a}    
+$$
+
+En Eq. 1 se está planteando que todas las variables de efecto tienen efecto sobre el rendimiento, expresado en producción de biomasa (B). En este caso el modelo únicamente incluye el intercepto y un conjunto de vcvariables *dummy*. Siendo *o* la concentración de ozono a la cual se expusieron las plantas, valiendo 1 si la planta se expuso a concentraciones alta de ozono y 0 si únicamente se expuso al ozono ambiental. La inoculación con endófitos está representada con *e*, valiendo 1 si se incoluaron los individuos con hongos endófitos y 0 si no. Por último, *a* se refiere a si los individuos se expusieron a áfidos (*a* = 1) o no (*a* = 0). 
+
+Teniendo esto en cuenta se pueden desarrollar los siguientes modelos: 
+
+$$
+\tag{Eq. 2}
+y_B= \beta_{0} + \beta_{1}x_{o}   
+$$
+En Eq. 2 se plantea que la diferencia en la producción de la biomasa está dada por los cambios en la concentración de ozono. Por otro lado la hipótesis relacionada con la presencia o ausencia de asociados mutualistas, se puede expresar con el siguiente modelo
+
+$$
+\tag{Eq. 3}
+y_B= \beta_{0} + \beta_{2}x_{e} 
+$$
+Continuando con los modelos más simples, la hipótesis del efecto de la presencia de herbívoros sobre el rendimiento de la planta se representaría con el siguiente modelo
+
+$$
+\tag{Eq. 4}
+y_B= \beta_{0} + \beta_{3}x_{a}
+$$
+
+El modelo planteado para la hipótesis relacionada con el cambio en la característica mutualista de los endófitos con respecto a las concentraciones de ozono es
+
+$$
+\tag{Eq. 5}
+y_B= \beta_{0} + \beta_{1}x_{o} + \beta_{2}x_{e} + \beta_{4}x_{e}x_{o}
+$$
+en este modelo se decidió incluir la interacción entre el ozono y la presencia de endófitos.Para el efecto de los herbívoros en diferentes concentraciones de ozono sobre el desempeño de la planta se planteo
+
+$$
+\tag{Eq. 6}
+y_B= \beta_{0} + \beta_{1}x_{o} + \beta_{3}x_{a} + \beta_{5}x_{a}x_{o}
+$$
+
+Por último la última hipótesis presentada relaciona las tres variables de  efecto presentadas, este modelo se diferencía de Eq. 1 porque incluye las ihnteracciones entre las variables
+
+$$
+\tag{Eq. 7}
+y_B= \beta_{0} + \beta_{1}x_{o} + \beta_{2} x_{e} + \beta_{3}x_{a}  + \beta_{4}x_{e}x_{o}  + \beta_{5}x_{a}x_{o} +  \beta_{6}x_{a}x_{e} + \beta_{7}x_{a}x_{e}x_{o} 
+$$
