@@ -2,17 +2,14 @@
 title: "Proyecto Modelación Estadística en Ecología"
 output: pdf_document
 ---
-
 Estos datos se obtuvieron a partir del estudio de Ueno *et al.* 2015 [DOI:10.1111/1365-2435.12519](https://doi.org/10.1111/1365-2435.12519), en el cual los autores infirieron el rendimiento de *Lolium multiflorum* a partir de la cantidad de biomasa (g por planta), bajo los efectos de la exposición a Ozono troposférico (presencia/ausencia), la interacción del hongo endófito *Epiclöe ocultans* (presencia/ausencia) y la exposición a herbívoros (presencia/ausencia de áfidos).
 
-A partir de estos datos, queremos modelar la cantidad de biomasa en respuesta a los distintos tratamientos.
+A partir de estos datos, queremos modelar la cantidad de biomasa de las plantas en respuesta a los distintos tratamientos.
 
 # Diseño experimental
+![](diseño.png)
 
-
-**pendiente**
-
-### Variables
+# Variables
 
 
 ```{r echo=FALSE}
@@ -21,7 +18,7 @@ A partir de estos datos, queremos modelar la cantidad de biomasa en respuesta a 
 variables <- data.frame(
   "Variable" = c("Respuesta", "Efecto", "Efecto", "Efecto", "Efecto"), 
   "Nombre" = c("Biomasa", "Año", "Ozono", "Endófitos", "Áfidos"), 
-  "Unidades" = c("(g/planta)", "NA", "(presencia/ausencia)", "(presencia/ausencia)", "(presencia/ausencia)"),
+  "Escala" = c("(g/planta)", "NA", "(presencia/ausencia)", "(presencia/ausencia)", "(presencia/ausencia)"),
   "Tipo" = c("Continua", "Categórica", "Categórica Binaria", "Categórica Binaria", "Categórica Binaria"))
 
 knitr::kable(variables)
@@ -40,11 +37,10 @@ str(db1)
 
 ```
 
-# Datos
 ```{r include=FALSE}
 db <- db1 %>% 
   mutate(Ozono = if_else(Ozone == 1, "Ozono", "Sin Ozono"),
-         Endófitos= if_else(Endophyte == 1, "Edófitos", "Sin Endófitos"),
+         Endófitos= if_else(Endophyte == 1, "Endófitos", "Sin Endófitos"),
          Herbivoría= if_else(Aphid == 1, "Áfidos", "Sin Áfidos"))
 
 individuos <- db %>% 
@@ -53,7 +49,6 @@ individuos <- db %>%
 ```
 
 ```{r echo=FALSE}
-head(db1)
 knitr::kable(individuos)
 ```
 
