@@ -76,16 +76,13 @@ p
 El desempeño de las plantas puede ser inferido a partir de su biomasa. Esta característica puede verse afectada por factores abióticos, como la exposición a distintos estrese ambientales; y bióticos como la interacción con organismos mutualistas o antagonistas. Se ha reportado que la caracteristica mutualista de los hongos endófitos se ve afectada por el contexto ambiental pudiendo llegar a tener un comportamiento antagonista en codiciones ambientales adversas. Teniendo esto en cuenta, se plantean las siguientes hipótesis:
 
 
-* El desempeño de la planta se ve disminuído por la presencia de condiciones ambientales adversas.
-* El desempeño de la planta se ve disminuído por la ausencia sus asociados mutualistas.
-* El desempeño de la planta se ve disminuído por la presencia de herbívoros.
-* En condiciones adversas los hongos endófitos cambian su estatus mutualista a parásito, afectando el desempeño de la planta asociada. 
-* Los hongos endófitos ayudan a su planta hospedera a sobrellevar condiciones ambientales adversas, por lo que el desempeño será mayor en presencia de endófitos. 
 * El desempeño de la planta se verá afectado en condiciones ambientales adversas y en presencia de herbívoros.
+* Los hongos endófitos ayudan a su planta hospedera a sobrellevar condiciones ambientales adversas, por lo que el desempeño será mayor en presencia de endófitos. 
 * Los hongos endófitos ayudan a su planta hospedara a sobrellevar el estrés por herbivoría.
-* En condiciones ambientales adversas los hongos endófitos cambian su estatus mutualista, por lo que incrementan el efecto del daño por herbivoría. 
+* En condiciones ambientales adversas los hongos endófitos cambian su estatus mutualista, por lo que incrementan el efecto del daño por herbivoría y condiciones ambientales adversas. 
 
-Con estas hipóstesis biológicas se puede plantear los siguientes modelos estadísticos
+Con estas hipóstesis biológicas se puede plantear los siguientes modelos estadísticos, considerando el año en que se realizó el experimento como un efecto aleatorio. 
+
 $$
 \tag{Eq. 1}
 y_B= \beta_{0} + \beta_{1}x_{o} + \beta_{2} x_{e} + \beta_{3}x_{a}    
