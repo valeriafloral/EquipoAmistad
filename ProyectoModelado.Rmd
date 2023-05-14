@@ -128,3 +128,30 @@ $$
 \tag{Eq. 7}
 y_B= \beta_{0} + \beta_{1}x_{o} + \beta_{2} x_{e} + \beta_{3}x_{a}  + \beta_{4}x_{e}x_{o}  + \beta_{5}x_{a}x_{o} +  \beta_{6}x_{a}x_{e} + \beta_{7}x_{a}x_{e}x_{o} 
 $$
+
+``` {r}
+library(brms)
+for(f in 1:3)
+  db[,f + 1] <- as.factor(db[, f + 1])
+
+mod0 <- brm(Biomass ~ 1, family = lognormal, iter = 3000, data = db, cores = 4)
+
+mod1 <- brm(Biomass ~ Ozone + Aphid + Endophyte + ( 1 + Ozone | Year) + (0 + Aphid | Year) + ( 0 + Endophyte | Year), family = lognormal, iter = 3000, data = db, cores = 4)
+
+mod1.b <- brm(Biomass ~ Ozone + Aphid + Endophyte , family = lognormal, iter = 3000, data = db, cores = 4)
+
+mod2 <- brm(Biomass ~ Ozone + Aphid + Endophyte + Ozone:Aphid + Ozone:Endophyte + Aphid:Endophyte + ( 1 + Ozone | Year) + (0 + Aphid | Year) + ( 0 + Endophyte | Year) + ( 0 + Ozone:Aphid | Year) +  ( 0 + Ozone:Endophyte| Year) + (0 + Aphid:Endophyte | Year), family = lognormal, iter = 3000, data = db, cores = 4)
+
+mod2.b <- brm(Biomass ~ Ozone + Aphid + Endophyte + Ozone:Aphid + Ozone:Endophyte + Aphid:Endophyte, family = lognormal, iter = 3000, data = db, cores = 4)
+
+mod2.c <- brm(Biomass ~ Ozone + Aphid + Endophyte + Ozone:Aphid + Ozone:Endophyte + Aphid:Endophyte + ( 1 + Ozone | Year), family = lognormal, iter = 3000, data = db, cores = 4)
+
+mod3 <- brm(Biomass ~ Ozone + (1 + Ozone | Year), family = lognormal, iter = 3000, data = db, cores = 4)
+
+mod4 <- brm(Biomass ~ Endophyte + (1 + Endophyte | Year), family = lognormal, iter = 3000, data = db, cores = 4)
+
+mod5 <- brm(Biomass ~ Ozone + Endophyte + Ozone:Endophyte + ( 1 + Ozone | Year) + ( 0 + Endophyte | Year) + ( 0 + Ozone:Endophyte | Year), family = lognormal, iter = 3000, data = db, cores = 4)
+
+mod6 <- brm(Biomass ~ Ozone + Aphid + Ozone:Aphid + ( 1 + Ozone | Year) + (0 + Aphid | Year) +  (0 + Ozone:Aphid | Year), family = lognormal, iter = 3000, data = db, cores = 4)
+
+```
