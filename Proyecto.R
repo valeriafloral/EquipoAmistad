@@ -917,38 +917,26 @@ save(mod12.re.g.t, file = "mod12.re.g.t.RData")
 mod12.re.g.u <- brm(Biomass ~ Ozone + Aphid + Endophyte + Ozone:Aphid + Ozone:Endophyte + Aphid:Endophyte + Ozone:Endophyte:Aphid + (0 + Ozone + Endophyte + Aphid + Ozone:Endophyte + Ozone:Aphid + Aphid:Endophyte + Ozone:Aphid:Endophyte | Year) , family = gaussian, iter = 30000, data = db, cores = 4)
 save(mod12.re.g.u, file = "mod12.re.g.u.RData")
 
-load("mod0.RData")
-load(file = "mod1.RData")
-load(file = "mod1b.RData")
-load(file = "mod2.RData")
-load(file = "mod2b.RData")
-load(file = "mod2c.RData")
-load(file = "mod3.RData")
-load(file = "mod4.RData")
-load(file = "mod5.RData")
-load(file = "mod6.RData")
+files <- list.files()
+results <-sapply(files, function(x) mget(load(x)), simplify = TRUE)
+df.loos <- data.frame(looic = rep(NA, length(files)), se = rep(NA, length(files)), modelo = rep(NA, length(files)))
+loo_results <- list()
+count <- 1
+for( i in 1 : length(files)){
+  loo_results[[i]] <- loo(results[[i]])
+  df.loos$looic[i] <- loo_results[[i]]$estimates[3, 1]
+  df.loos$se[i] <- loo_results[[i]]$estimates[3,2]
+  files[[i]] <- gsub(".RData", "", files[[i]])
+  df.loos$modelo[i] <- files[[i]]
+  cat("count = ", count, "\n")
+  count <- count + 1
+}
 
-loo0 <- loo(mod0)
-loo1 <- loo(mod1)
-loo1.b <- loo(mod1.b)
-loo2 <- loo(mod2)
-loo2.b <- loo(mod2.b)
-loo2.c <- loo(mod2.c)
-loo3 <- loo(mod3)
-loo4 <- loo(mod4)
-loo5 <- loo(mod5)
-loo6 <- loo(mod6)
-
-looics <- data.frame(looic = c(loo0$estimates[3, 1], loo1$estimates[3, 1], loo1.b$estimates[3, 1], loo2$estimates[3, 1], loo2.b$estimates[3, 1], loo2.c$estimates[3, 1], loo3$estimates[3, 1], loo4$estimates[3, 1], loo5$estimates[3, 1], loo6$estimates[3, 1]), se = c(loo0$estimates[3, 2], loo1$estimates[3, 2], loo1.b$estimates[3, 2], loo2$estimates[3, 2], loo2.b$estimates[3, 2], loo2.c$estimates[3, 2], loo3$estimates[3, 2], loo4$estimates[3, 2], loo5$estimates[3, 2], loo6$estimates[3, 2]), modelo = c("mod0", "mod1", "mod1b", "mod2", "mod2b", "mod2c", "mod3", "mod4", "mod5", "mod6"))
-
-
-
-
-p <- ggplot(data = looics, aes(x = reorder(modelo, looic), y = looic)) +
+p <- ggplot(data = df.loos, aes(x = reorder(modelo, looic), y = looic)) +
   labs(x = "Modelo", y = "LOOIC")+
   geom_point() +
   geom_errorbar(aes(ymin= looic - 2*se, ymax = looic + 2*se), width= 0.2) +
-  theme(text = element_text(size = 18))
+  theme(text = element_text(size = 10))
 
 looics$w <- exp(-0.5*(looics$looic - min(looics$looic)))/sum(exp(-0.5*(looics$looic - min(looics$looic))))
 
