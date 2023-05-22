@@ -1,0 +1,244 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Proyecto Modelación Estadística en Ecología},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Proyecto Modelación Estadística en Ecología}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+Estos datos se obtuvieron a partir del estudio de Ueno \emph{et al.}
+2015
+\href{https://doi.org/10.1111/1365-2435.12519}{DOI:10.1111/1365-2435.12519},
+en el cual los autores infirieron el rendimiento de \emph{Lolium
+multiflorum} a partir de la cantidad de biomasa (g por planta), bajo los
+efectos de la exposición a Ozono troposférico (presencia/ausencia), la
+interacción del hongo endófito \emph{Epiclöe ocultans}
+(presencia/ausencia) y la exposición a herbívoros (presencia/ausencia de
+áfidos).
+
+A partir de estos datos, queremos modelar la cantidad de biomasa de las
+plantas en respuesta a los distintos tratamientos.
+
+\hypertarget{diseuxf1o-experimental}{%
+\section{Diseño experimental}\label{diseuxf1o-experimental}}
+
+\includegraphics{diseño.png}
+
+\hypertarget{variables}{%
+\section{Variables}\label{variables}}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule()
+Variable & Nombre & Escala & Tipo \\
+\midrule()
+\endhead
+Respuesta & Biomasa & (g/planta) & Continua \\
+Efecto & Año & NA & Categórica \\
+Efecto & Ozono & (presencia/ausencia) & Categórica Binaria \\
+Efecto & Endófitos & (presencia/ausencia) & Categórica Binaria \\
+Efecto & Áfidos & (presencia/ausencia) & Categórica Binaria \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{datos}{%
+\section{Datos}\label{datos}}
+
+\begin{longtable}[]{@{}lllrrr@{}}
+\toprule()
+Ozono & Endófitos & Herbivoría & Indviduos & Media & SD \\
+\midrule()
+\endhead
+Ozono & Endófitos & Sin Áfidos & 12 & 6.815000 & 2.785807 \\
+Ozono & Endófitos & Áfidos & 12 & 4.978333 & 3.021826 \\
+Ozono & Sin Endófitos & Sin Áfidos & 12 & 5.322500 & 2.725423 \\
+Ozono & Sin Endófitos & Áfidos & 12 & 3.445833 & 2.248674 \\
+Sin Ozono & Endófitos & Sin Áfidos & 12 & 7.240000 & 3.983498 \\
+Sin Ozono & Endófitos & Áfidos & 12 & 5.195000 & 2.986039 \\
+Sin Ozono & Sin Endófitos & Sin Áfidos & 12 & 5.239167 & 2.514613 \\
+Sin Ozono & Sin Endófitos & Áfidos & 12 & 4.349167 & 3.684013 \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{distribuciuxf3n-de-la-variable-de-respuesta}{%
+\section{Distribución de la variable de
+respuesta}\label{distribuciuxf3n-de-la-variable-de-respuesta}}
+
+\includegraphics{ProyectoModelado_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\hypertarget{distribuciuxf3n-de-los-datos-por-variables}{%
+\section{Distribución de los datos por
+variables}\label{distribuciuxf3n-de-los-datos-por-variables}}
+
+\includegraphics{ProyectoModelado_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\hypertarget{hipuxf3tesis}{%
+\section{Hipótesis}\label{hipuxf3tesis}}
+
+El desempeño de las plantas puede ser inferido a partir de su biomasa.
+Esta característica puede verse afectada por factores abióticos, como la
+exposición a distintos estrese ambientales; y bióticos como la
+interacción con organismos mutualistas o antagonistas. Se ha reportado
+que la caracteristica mutualista de los hongos endófitos se ve afectada
+por el contexto ambiental pudiendo llegar a tener un comportamiento
+antagonista en codiciones ambientales adversas. Teniendo esto en cuenta,
+se plantean las siguientes hipótesis:
+
+\begin{itemize}
+\tightlist
+\item
+  El desempeño de la planta se verá afectado en condiciones ambientales
+  adversas y en presencia de herbívoros.
+\item
+  Los hongos endófitos ayudan a su planta hospedera a sobrellevar
+  condiciones ambientales adversas, por lo que el desempeño será mayor
+  en presencia de endófitos.
+\item
+  Los hongos endófitos ayudan a su planta hospedara a sobrellevar el
+  estrés por herbivoría.
+\item
+  En condiciones ambientales adversas los hongos endófitos cambian su
+  estatus mutualista, por lo que incrementan el efecto del daño por
+  herbivoría y condiciones ambientales adversas.
+\end{itemize}
+
+Con estas hipóstesis biológicas se puede plantear los siguientes modelos
+estadísticos, considerando el año en que se realizó el experimento como
+un efecto aleatorio.
+
+\[
+\tag{Eq. 1}
+y_B= \beta_{0} + \beta_{1}x_{o} + \beta_{2} x_{e} + \beta_{3}x_{a}    
+\]
+
+En Eq. 1 se está planteando que todas las variables de efecto tienen
+efecto sobre el rendimiento, expresado en producción de biomasa (B). En
+este caso el modelo únicamente incluye el intercepto y un conjunto de
+vcvariables \emph{dummy}. Siendo \emph{o} la concentración de ozono a la
+cual se expusieron las plantas, valiendo 1 si la planta se expuso a
+concentraciones alta de ozono y 0 si únicamente se expuso al ozono
+ambiental. La inoculación con endófitos está representada con \emph{e},
+valiendo 1 si se incoluaron los individuos con hongos endófitos y 0 si
+no. Por último, \emph{a} se refiere a si los individuos se expusieron a
+áfidos (\emph{a} = 1) o no (\emph{a} = 0).
+
+Teniendo esto en cuenta se pueden desarrollar los siguientes modelos:
+
+\[
+\tag{Eq. 2}
+y_B= \beta_{0} + \beta_{1}x_{o}   
+\] En Eq. 2 se plantea que la diferencia en la producción de la biomasa
+está dada por los cambios en la concentración de ozono. Por otro lado la
+hipótesis relacionada con la presencia o ausencia de asociados
+mutualistas, se puede expresar con el siguiente modelo
+
+\[
+\tag{Eq. 3}
+y_B= \beta_{0} + \beta_{2}x_{e} 
+\] Continuando con los modelos más simples, la hipótesis del efecto de
+la presencia de herbívoros sobre el rendimiento de la planta se
+representaría con el siguiente modelo
+
+\[
+\tag{Eq. 4}
+y_B= \beta_{0} + \beta_{3}x_{a}
+\]
+
+El modelo planteado para la hipótesis relacionada con el cambio en la
+característica mutualista de los endófitos con respecto a las
+concentraciones de ozono es
+
+\[
+\tag{Eq. 5}
+y_B= \beta_{0} + \beta_{1}x_{o} + \beta_{2}x_{e} + \beta_{4}x_{e}x_{o}
+\] en este modelo se decidió incluir la interacción entre el ozono y la
+presencia de endófitos.Para el efecto de los herbívoros en diferentes
+concentraciones de ozono sobre el desempeño de la planta se planteo
+
+\[
+\tag{Eq. 6}
+y_B= \beta_{0} + \beta_{1}x_{o} + \beta_{3}x_{a} + \beta_{5}x_{a}x_{o}
+\]
+
+Por último la última hipótesis presentada relaciona las tres variables
+de efecto presentadas, este modelo se diferencía de Eq. 1 porque incluye
+las ihnteracciones entre las variables
+
+\[
+\tag{Eq. 7}
+B= \beta_{0} + U_{0}+\beta_{1}x_{o} + U_{1}x_{o}+\beta_{2} x_{e}+U_{2} x_{e} + \beta_{3}x_{a} +U_{3}x_{a}  + \beta_{4}x_{e}x_{o}  +U_{4}x_{e}x_{o}  + \beta_{5}x_{a}x_{o} +  U_{5}x_{a}x_{o} +\beta_{6}x_{a}x_{e} + U_{6}x_{a}x_{e} + \beta_{7}x_{a}x_{e}x_{o} + U_{7}x_{a}x_{e}x_{o} 
+\]
+
+\end{document}
