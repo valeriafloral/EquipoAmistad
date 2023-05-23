@@ -1899,7 +1899,6 @@ treats_sep <- treats_sep %>%
     Ozono == "-O" ~ "Sin Ozono",
     Ozono == "+O" ~ "Ozono",
     TRUE ~ Ozono
-  )) %>% mutate(Herbivoría = case_when(
     Herbivoría == "-A" ~ "Sin Áfidos",
     Herbivoría == "+A" ~ "Áfidos",
     TRUE ~ Herbivoría
@@ -1907,12 +1906,38 @@ treats_sep <- treats_sep %>%
 
 p2 <-ggplot(db, aes(x=Endófitos, y=Biomass, color=Herbivoría)) +
   geom_boxplot()+
+  geom_point(data = treats_sep, aes(x = Endófitos, y = Estimate), shape = 16, size = 3) +
   facet_grid(.~Ozono, scales = "free_x")+
   ylab("Biomasa (g/planta)")+
   xlab("Tratamientos")+
   theme_minimal()+
   theme(strip.text.x = element_text(size = 20))
-p
+p2
+
+
+p2 <- ggplot(db, aes(x = Endófitos, y = Biomass, color = Herbivoría)) +
+  geom_boxplot() +
+  facet_grid(. ~ Ozono, scales = "free_x") +
+  geom_point(data = treats_sep, aes(x = Endófitos, y = Estimate, color = Herbivoría), size = 4, shape = 15, position = position_dodge(width = 0.70)) +
+  geom_errorbar(data = treats_sep, aes(x = Endófitos, y = Estimate, ymin = Q2.5 , ymax = Q97.5, color = Herbivoría), width = 0.2, position = position_dodge(width = 0.7), linetype = 2) +
+  ylab("Biomasa (g/planta)") +
+  xlab("Tratamientos") +
+  theme_minimal() +
+  theme(strip.text.x = element_text(size = 22),
+        text = element_text(size = 20, color = "black"),
+        axis.text = element_text(color = "black", size = 15))
+
+p2
+
+
+p3 <- ggplot(treats_sep, aes(x = Endófitos, y = Estimate, color = Herbivoría)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = Q2.5, ymax = Q97.5), width = 0.2) +
+  facet_grid(. ~ Ozono, scales = "free_x") +
+  ylab("Biomasa (g/planta)") +
+  xlab("Tratamientos") +
+  theme_minimal() +
+  theme(strip.text.x = element_text(size = 20))
 
 
 
